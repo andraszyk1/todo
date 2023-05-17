@@ -62,20 +62,14 @@ const checkClick=e=>{
     if(e.target.closest('button').classList.contains('complete')){
         e.target.closest('li').classList.toggle('completed');
         e.target.closest('button').classList.toggle('completed');
-     
     }
      else if(e.target.closest('button').classList.contains('edit')){
-        console.log(e.target);
-        POPUP.setAttribute('style','display:flex');
-        console.log(e.target.closest('li'));
+        editTask(e);
     }
     else if(e.target.closest('button').classList.contains('delete')){
-        console.log(e.target);
         deleteTask(e);
     }
-    else{
-        return;
-    }
+ 
 }
 }
 const createToolsArea=()=>{
@@ -102,15 +96,22 @@ const createToolsArea=()=>{
 
 }
 const closePopup=()=>{
-    POPUP.setAttribute('style','display:none');
+    POPUP.style.display='none';
 }
 
-const deleteTask=(e)=>{
+const deleteTask=e=>{
     const deleteTodo=e.target.closest('li');
     deleteTodo.remove();
     console.log(ALL_TASKS)
     if(ALL_TASKS.length===0){
         ALERT_INFO.innerText="Tasks list empty";
     }
+}
+
+const editTask=e=>{
+    const oldTodo=e.target.closest('li').id;
+    EDITED_TODO=document.getElementById(oldTodo);
+    POPUP.style.display='flex';
+    POPUP_INPUT.value=EDITED_TODO.firstChild.textContent;
 }
 document.addEventListener('DOMContentLoaded',main);
