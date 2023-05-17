@@ -22,7 +22,7 @@ const prepareDOMElements=()=>{
     ALERT_INFO=document.querySelector('.alert-info');
     ADD_BTN=document.querySelector('.add-btn');
     UL_LIST=document.querySelector('.todo-list ul');
-    ALL_TASKS=document.querySelector('li');
+    ALL_TASKS=document.getElementsByTagName('li');
     POPUP=document.querySelector('.popup');
     POPUP_INFO=document.querySelector('.popup-info');
     POPUP_INPUT=document.querySelector('.popup-input');
@@ -34,6 +34,7 @@ const prepereDOMEvents=()=>{
     ADD_BTN.addEventListener('click',addNewTask);
     TODO_INPUT.addEventListener('keyup',enterCheck);
     UL_LIST.addEventListener('click',checkClick);
+    CLOSE_TODO_BTN.addEventListener('click',closePopup)
 }
 const addNewTask=()=>{
     if(TODO_INPUT.value!==''){
@@ -59,17 +60,21 @@ const enterCheck=()=>{
 const checkClick=e=>{
     if(e.target.classList.value!==''){
     if(e.target.closest('button').classList.contains('complete')){
-        e.target.closest('li').classList.add('completed');
-        console.log(e);
+        e.target.closest('li').classList.toggle('completed');
+        e.target.closest('button').classList.toggle('completed');
+     
     }
-     if(e.target.closest('button').classList.contains('edit')){
+     else if(e.target.closest('button').classList.contains('edit')){
         console.log(e.target);
+        POPUP.setAttribute('style','display:flex');
+        console.log(e.target.closest('li'));
     }
-    if(e.target.closest('button').classList.contains('delete')){
+    else if(e.target.closest('button').classList.contains('delete')){
         console.log(e.target);
+        deleteTask(e);
     }
     else{
-        return false;
+        return;
     }
 }
 }
@@ -95,5 +100,17 @@ const createToolsArea=()=>{
     //     <button class="delete">Delete</button>
     // </div>
 
+}
+const closePopup=()=>{
+    POPUP.setAttribute('style','display:none');
+}
+
+const deleteTask=(e)=>{
+    const deleteTodo=e.target.closest('li');
+    deleteTodo.remove();
+    console.log(ALL_TASKS)
+    if(ALL_TASKS.length===0){
+        ALERT_INFO.innerText="Tasks list empty";
+    }
 }
 document.addEventListener('DOMContentLoaded',main);
