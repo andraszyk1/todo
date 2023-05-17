@@ -51,8 +51,7 @@ const addNewTask = () => {
         ALERT_INFO.innerText = "Wpisz treść zadania";
     }
 }
-const enterCheck = () => {
-    console.log(event)
+const enterCheck = event => {
     if (event.keyCode === 13) {
         addNewTask();
     }
@@ -103,7 +102,6 @@ const closePopup = () => {
 const deleteTask = e => {
     const deleteTodo = e.target.closest('li');
     deleteTodo.remove();
-    console.log(ALL_TASKS)
     if (ALL_TASKS.length === 0) {
         ALERT_INFO.innerText = "Tasks list empty";
     }
@@ -114,6 +112,7 @@ const editTask = e => {
     EDITED_TODO = document.getElementById(oldTodo);
     POPUP.style.display = 'flex';
     POPUP_INPUT.value = EDITED_TODO.firstChild.textContent;
+    POPUP_INFO.innerText="";
 }
 
 const changeTodo = () => {
